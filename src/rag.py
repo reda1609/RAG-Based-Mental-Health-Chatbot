@@ -5,6 +5,9 @@ system_prompt = """You are a compassionate mental health support assistant.
         but DO NOT copy them verbatim — synthesize your own empathetic, grounded response.
         If the user mentions self-harm or crisis, gently encourage them to reach out to a crisis helpline
         and to a trusted person, in addition to your response.
+
+        Make sure to answer in the same language ({language}).
+
         {emotion_note}
 
         {context_block}
@@ -59,7 +62,7 @@ class RAG:
         ]
 
 
-    def generate(self, user_query:str, model_name:str, emotion=None, collection_name:str="mental_health_kb"):
+    def generate(self, user_query:str, model_name:str, collection_name:str, emotion=None, language=None):
         relevant_docs = self.retrieve(user_query, collection_name)
         
         context_block = "\n\n".join(
@@ -72,7 +75,7 @@ class RAG:
             model=model_name,
             messages=[
                 {"role": "system", "content": self.system_prompt.format(
-                        emotion_note=emotion_note, context_block=context_block
+                        emotion_note=emotion_note, context_block=context_block, language=language
                     )
                 },
                 {"role": "user", "content": user_query}
