@@ -1,35 +1,13 @@
-import joblib
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-
-# ── Language code → human-readable name ────────────────────────────────────
-LANGUAGE_NAMES = {
-    "ar": "Arabic",
-    "bg": "Bulgarian",
-    "de": "German",
-    "el": "Greek",
-    "en": "English",
-    "es": "Spanish",
-    "fr": "French",
-    "hi": "Hindi",
-    "it": "Italian",
-    "ja": "Japanese",
-    "nl": "Dutch",
-    "pl": "Polish",
-    "pt": "Portuguese",
-    "ru": "Russian",
-    "sw": "Swahili",
-    "th": "Thai",
-    "tr": "Turkish",
-    "ur": "Urdu",
-    "vi": "Vietnamese",
-    "zh": "Chinese",
-}
+from src.language_detector import load_langauge_detector, predict_language_name
 
 # ── Load model ──────────────────────────────────────────────────────────────
 MODEL_PATH = "./models/language_detector.pkl"
 
 print("Loading language detector model...")
-language_detector = joblib.load(MODEL_PATH)
+language_detector = load_langauge_detector(model_path=MODEL_PATH)
 print("Model loaded successfully!\n")
 
 # ── Sample sentences in different languages ─────────────────────────────────
@@ -50,9 +28,8 @@ print("  Language Detection Results")
 print("=" * 55)
 
 for sentence in test_sentences:
-    predicted_code = language_detector.predict([sentence])[0]
-    predicted_language = LANGUAGE_NAMES.get(predicted_code, predicted_code)
+    predicted_language = predict_language_name(model=language_detector, text=sentence)
     print(f"\nSentence : {sentence}")
-    print(f"  ➜  The user is speaking {predicted_language}")
+    print(f"  -->  The user is speaking {predicted_language}")
 
 print("\n" + "=" * 55)

@@ -1,24 +1,13 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-# ── Emotion label mapping ───────────────────────────────────────────────────
-# Labels from dair-ai/emotion dataset (0-indexed)
-EMOTION_LABELS = {
-    0: "sadness",
-    1: "joy",
-    2: "love",
-    3: "anger",
-    4: "fear",
-    5: "surprise",
-}
+from src.emotion_classifer import load_emotion_classifier, predict_emotion
 
-# ── Load model & tokenizer ──────────────────────────────────────────────────
+
 MODEL_PATH = "./models/emotion_model"
 
 print("Loading emotion classification model...")
-tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
-model.eval()
+tokenizer, model = load_emotion_classifier(model_path=MODEL_PATH)
 print("Model loaded successfully!\n")
 
 # ── Sample sentences covering different emotions ────────────────────────────
@@ -31,22 +20,13 @@ test_sentences = [
     "I had no idea this was going to happen, I am completely shocked!", # surprise
 ]
 
-# ── Predict emotion ─────────────────────────────────────────────────────────
-def predict_emotion(text):
-    inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
-    inputs.pop("token_type_ids", None)
-    with torch.no_grad():
-        outputs = model(**inputs)
-    predicted_id = outputs.logits.argmax(dim=-1).item()
-    return EMOTION_LABELS[predicted_id]
-
 # ── Run predictions ─────────────────────────────────────────────────────────
 print("=" * 60)
 print("  Emotion Classification Results")
 print("=" * 60)
 
 for sentence in test_sentences:
-    emotion = predict_emotion(sentence)
+    emotion = predict_emotion(model, tokenizer, text=sentence)
     print(f"\nSentence : {sentence}")
     print(f"  --> The user is feeling {emotion}")
 
