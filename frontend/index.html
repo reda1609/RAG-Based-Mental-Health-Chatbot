@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A compassionate AI-powered mental health support chatbot using RAG technology." />
+  <title>MindEase — Mental Health Support</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── App shell ───────────────────────────────────────────────────── -->
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-icon">🧠</span>
+        </div>
+        <div class="header-text">
+          <h1 class="app-title">MindEase</h1>
+          <p class="app-subtitle">AI Mental Health Support</p>
+        </div>
+      </div>
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot"></span>
+        <span class="status-label">Connecting…</span>
+      </div>
+    </header>
+
+    <!-- Chat window -->
+    <main class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Chat messages">
+
+      <!-- Welcome message rendered by JS on load -->
+
+    </main>
+
+    <!-- Input bar -->
+    <footer class="input-bar">
+      <textarea
+        id="userInput"
+        class="input-field"
+        placeholder="Share how you're feeling… (any language)"
+        rows="1"
+        aria-label="Type your message"
+        autocomplete="off"
+        spellcheck="true"
+      ></textarea>
+      <button id="sendBtn" class="send-btn" aria-label="Send message" disabled>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M3.478 2.405a.75.75 0 0 0-.926.94l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.405Z" />
+        </svg>
+      </button>
+    </footer>
+
+  </div><!-- /.app -->
+
+  <script src="script.js"></script>
+</body>
+</html>
